@@ -4,10 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("reset").addEventListener("click", () => {
         initBoard(properties.boardWidth, properties.boardHeight);
     });
+    document.getElementById("togglePlay").addEventListener("click", () => {
+        document.getElementById("togglePlay").innerText = playing ? "Play" : "Pause";
+        playing = !playing;
+    });
 });
 
 var context;
 var board;
+var playing = true;
 var properties = {
     boardWidth: 250,
     boardHeight: 250,
@@ -90,8 +95,10 @@ function getNumberOfNeighbours(x, y){
 }
 
 function gameLoop(){
-    drawBoard();
-    updateBoard();
+    if(playing){
+        drawBoard();
+        updateBoard();
+    }
 }
 
 function invertPixel(){
