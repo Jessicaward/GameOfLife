@@ -8,10 +8,26 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("togglePlay").innerText = playing ? "Play" : "Pause";
         playing = !playing;
     });
+    document.getElementById("randomSeed").addEventListener("click", () => {
+        for(var x = 0; x < properties.boardWidth; x++){
+            for(var y = 0; y < properties.boardHeight; y++){
+                //todo: add some sort of chance to this, it just ends in weird tubey static
+                board[x][y] = Math.floor(Math.random() * 2);
+            }
+        }
+    });
+    canvas.addEventListener("mousedown", (event) => {
+        var rect = canvas.getBoundingClientRect();
+        drawOnCanvas(
+            event.clientX - rect.left,
+            event.clientY - rect.top
+        );
+    });
 });
 
 var context;
 var board;
+var canvas;
 var playing = true;
 var properties = {
     boardWidth: 250,
@@ -20,7 +36,7 @@ var properties = {
 };
 
 function init() {
-    var canvas = document.getElementById("gameCanvas");
+    canvas = document.getElementById("gameCanvas");
 
     if(canvas.getContext){
         context = canvas.getContext("2d");
@@ -30,6 +46,10 @@ function init() {
     else{
         alert("Couldn't find canvas.")
     }
+}
+
+function drawOnCanvas(x, y){
+    board[x][y] = 1 ^ board[x][y];
 }
 
 function initBoard(width, height){
@@ -99,8 +119,4 @@ function gameLoop(){
         drawBoard();
         updateBoard();
     }
-}
-
-function invertPixel(){
-    board[x][y] = 1 ^ board[x][y];
 }
