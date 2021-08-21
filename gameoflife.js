@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     init();
+
+    document.getElementById("reset").addEventListener("click", () => {
+        initBoard(properties.boardWidth, properties.boardHeight);
+    });
 });
 
 var context;
@@ -43,7 +47,7 @@ function drawBoard(){
 
 function updateBoard(){
     for(var x = 0; x < properties.boardWidth; x++){
-        for(var y = 0; y < properties.height; y++){
+        for(var y = 0; y < properties.boardHeight; y++){
             var numberOfNeighbours = getNumberOfNeighbours(x, y);
             if(numberOfNeighbours < 2){
                 //cell dies due to underpopulation
