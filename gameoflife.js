@@ -16,12 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    canvas.addEventListener("mousedown", (event) => {
-        var rect = canvas.getBoundingClientRect();
-        drawOnCanvas(
-            event.clientX - rect.left,
-            event.clientY - rect.top
-        );
+    canvas.addEventListener("mousemove", (event) => {
+        if(event.buttons == 1 && event.button == 0){
+            var rect = canvas.getBoundingClientRect();
+            drawOnCanvas(
+                Math.round((event.clientX - rect.left) / properties.scale),
+                Math.round((event.clientY - rect.top) / properties.scale)
+            );
+        }
     });
 });
 
@@ -32,6 +34,7 @@ var playing = true;
 var properties = {
     boardWidth: 250,
     boardHeight: 250,
+    scale: 3,
     colours: ["#000000", "#ffffff"]
 };
 
@@ -116,7 +119,9 @@ function getNumberOfNeighbours(x, y){
 
 function gameLoop(){
     if(playing){
-        drawBoard();
         updateBoard();
     }
+
+    //we still want to draw the board as the player may draw on screen while paused.
+    drawBoard();
 }
