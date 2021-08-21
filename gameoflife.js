@@ -1,32 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    init();
-
-    document.getElementById("reset").addEventListener("click", () => {
-        initBoard(properties.boardWidth, properties.boardHeight);
-    });
-    document.getElementById("togglePlay").addEventListener("click", () => {
-        document.getElementById("togglePlay").innerText = playing ? "Play" : "Pause";
-        playing = !playing;
-    });
-    document.getElementById("randomSeed").addEventListener("click", () => {
-        for(var x = 0; x < properties.boardWidth; x++){
-            for(var y = 0; y < properties.boardHeight; y++){
-                //todo: add some sort of chance to this, it just ends in weird tubey static
-                board[x][y] = Math.floor(Math.random() * 2);
-            }
-        }
-    });
-    canvas.addEventListener("mousemove", (event) => {
-        if(event.buttons == 1 && event.button == 0){
-            var rect = canvas.getBoundingClientRect();
-            drawOnCanvas(
-                Math.round((event.clientX - rect.left) / properties.scale),
-                Math.round((event.clientY - rect.top) / properties.scale)
-            );
-        }
-    });
-});
-
 var context;
 var board;
 var canvas;
@@ -44,7 +15,7 @@ function init() {
     if(canvas.getContext){
         context = canvas.getContext("2d");
         initBoard(properties.boardWidth, properties.boardHeight);
-        setInterval(gameLoop, 1);
+        setInterval(gameLoop, 50);
     }
     else{
         alert("Couldn't find canvas.")
@@ -125,3 +96,32 @@ function gameLoop(){
     //we still want to draw the board as the player may draw on screen while paused.
     drawBoard();
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    init();
+
+    document.getElementById("reset").addEventListener("click", () => {
+        initBoard(properties.boardWidth, properties.boardHeight);
+    });
+    document.getElementById("togglePlay").addEventListener("click", () => {
+        document.getElementById("togglePlay").innerText = playing ? "Play" : "Pause";
+        playing = !playing;
+    });
+    document.getElementById("randomSeed").addEventListener("click", () => {
+        for(var x = 0; x < properties.boardWidth; x++){
+            for(var y = 0; y < properties.boardHeight; y++){
+                //todo: add some sort of chance to this, it just ends in weird tubey static
+                board[x][y] = Math.floor(Math.random() * 2);
+            }
+        }
+    });
+    canvas.addEventListener("mousemove", (event) => {
+        if(event.buttons == 1 && event.button == 0){
+            var rect = canvas.getBoundingClientRect();
+            drawOnCanvas(
+                Math.round((event.clientX - rect.left) / properties.scale),
+                Math.round((event.clientY - rect.top) / properties.scale)
+            );
+        }
+    });
+});
