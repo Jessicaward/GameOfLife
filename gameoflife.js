@@ -49,6 +49,10 @@ function updateBoard(){
                 //cell dies due to underpopulation
                 board[x][y] = 0;
             }
+            else if(board[x][y] == 0 && numberOfNeighbours == 3){
+                //cell is born
+                board[x][y] = 1;
+            }
             else if(numberOfNeighbours > 3){
                 //cell dies due to overpopulation
                 board[x][y] = 0;
