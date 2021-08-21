@@ -27,7 +27,7 @@ function initBoard(width, height){
     board = Array.from(Array(width), () => new Array(height));
     for(var x = 0; x < width; x++){
         for(var y = 0; y < height; y++){
-            board[x][y] = Math.floor(Math.random() * 2);
+            board[x][y] = 0;
         }
     }
 }
@@ -41,6 +41,58 @@ function drawBoard(){
     }
 }
 
+function updateBoard(){
+    for(var x = 0; x < properties.boardWidth; x++){
+        for(var y = 0; y < properties.height; y++){
+            var numberOfNeighbours = getNumberOfNeighbours(x, y);
+            if(numberOfNeighbours < 2){
+                //cell dies due to underpopulation
+                board[x][y] = 0;
+            }
+            else if(numberOfNeighbours == 3){
+                //This is a weird rule. Technically, we should be looking at 2 neighbours as well.
+                //But, if the cell is dead and has 2 neighbours, then it stays dead.
+                //If the cell is alive and has 2 neighbours then it lives... so the state never actually changes?
+                //Anyway, this cell lives on as it's living comfortably;
+                continue;
+            }
+            else if(numberOfNeighbours > 3){
+                //cell dies due to overpopulation
+                board[x][y] = 0;
+            }
+        }
+    }
+}
+
+function getNumberOfNeighbours(x, y){
+    var numberOfNeighbours = 0;
+    for(var row = x - 1; row <= x + 1; row++){
+        for(var col = y - 1; col <= y + 1; col++){
+            if(row < 0 || row >= properties.boardWidth || col < 0 || col >= properties.boardHeight){
+                //neighbouring cell is out of bounds.
+                continue;
+            }
+            else if(row == x && col == y){
+                //cell shouldn't count itself.
+                continue;
+            }
+            else if(board[row][col] == 0){
+                //neighbouring cell is dead.
+                continue;
+            }
+
+            numberOfNeighbours++;
+        }
+    }
+
+    return numberOfNeighbours;
+}
+
 function gameLoop(){
     drawBoard();
+    updateBoard();
+}
+
+function invertPixel(){
+    board[x][y] = 1 ^ board[x][y];
 }
