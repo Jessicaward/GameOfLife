@@ -49,13 +49,6 @@ function updateBoard(){
                 //cell dies due to underpopulation
                 board[x][y] = 0;
             }
-            else if(numberOfNeighbours == 3){
-                //This is a weird rule. Technically, we should be looking at 2 neighbours as well.
-                //But, if the cell is dead and has 2 neighbours, then it stays dead.
-                //If the cell is alive and has 2 neighbours then it lives... so the state never actually changes?
-                //Anyway, this cell lives on as it's living comfortably;
-                continue;
-            }
             else if(numberOfNeighbours > 3){
                 //cell dies due to overpopulation
                 board[x][y] = 0;
