@@ -48,7 +48,7 @@ function updateBoard(){
     for(var x = 0; x < properties.boardWidth; x++){
         for(var y = 0; y < properties.boardHeight; y++){
             var numberOfNeighbours = getNumberOfNeighbours(x, y);
-            if(numberOfNeighbours < 2){
+            if(numberOfNeighbours < 2 && board[x][y] == 1){
                 //cell dies due to underpopulation
                 board[x][y] = 0;
             }
