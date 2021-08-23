@@ -1,5 +1,6 @@
 var context;
 var board;
+var bufferedBoard;
 var canvas;
 var playing = true;
 var properties = {
@@ -9,7 +10,7 @@ var properties = {
     colours: ["#000000", "#ffffff"]
 };
 
-function init() {
+function init(){
     canvas = document.getElementById("gameCanvas");
 
     if(canvas.getContext){
@@ -45,23 +46,25 @@ function drawBoard(){
 }
 
 function updateBoard(){
+    bufferedBoard = board;
     for(var x = 0; x < properties.boardWidth; x++){
         for(var y = 0; y < properties.boardHeight; y++){
             var numberOfNeighbours = getNumberOfNeighbours(x, y);
             if(numberOfNeighbours < 2 && board[x][y] == 1){
                 //cell dies due to underpopulation
-                board[x][y] = 0;
+                bufferedBoard[x][y] = 0;
             }
             else if(board[x][y] == 0 && numberOfNeighbours == 3){
                 //cell is born
-                board[x][y] = 1;
+                bufferedBoard[x][y] = 1;
             }
             else if(numberOfNeighbours > 3){
                 //cell dies due to overpopulation
-                board[x][y] = 0;
+                bufferedBoard[x][y] = 0;
             }
         }
     }
+    board = bufferedBoard;
 }
 
 function getNumberOfNeighbours(x, y){
